@@ -1,10 +1,3 @@
- 
-//  <ÎÄ¼şÃû>£ºASTCheckSemantics.cpp 
-//  <ÎÄ¼şÄÚÈİ>£º¸ÃÎÄ¼ş°üº¬Óï·¨Ê÷¸÷½áµãÀàµÄÀàĞÍ¼ì²éº¯ÊıµÄÊµÏÖ 
-//
-//  <´´½¨ÈÕÆÚ>£º15/03/2017
-
-//  °üº¬Í·ÎÄ¼ş
 #include <iostream>
 #include "stdlib.h"
 #include <sstream>
@@ -12,20 +5,16 @@
 #include "AbstractSyntaxTree.h"
 #include "SymbolTable.h"
 
-//  ÃüÃû¿Õ¼äÉùÃ÷
 using namespace std;
 
-//  È«¾Ö±äÁ¿ÉùÃ÷ 
-int typeerror = 0;  //¼ÇÂ¼ÓïÒå·ÖÎö´íÎóÊıÄ¿ 
+int typeerror = 0; 
 
-SymbolType* currentPtr = NULL;	//¶Ôµ±Ç°ÕıÔÚ²Ù×÷µÄÀàĞÍÖ¸Õë½øĞĞ¼ÇÂ¼£¬ÓÃÀ´½øĞĞÄ³Ğ©²Ù×÷µÄ»ØËİ 
-int branchNum;		//¼ÇÂ¼ÔÚ×Óº¯ÊıÖĞÓöµ½µÄ·ÖÖ§µÄÊıÁ¿ 
-int retNumInBranch;	//¼ÇÂ¼ÔÚ·ÖÖ§ÖĞ·µ»ØÖµµÄ¸öÊı 
-int retNumInBody;	//¼ÇÂ¼ÔÚº¯ÊıÌåÖĞ·µ»ØÖµµÄ¸öÊı 
+SymbolType* currentPtr = NULL;
+int branchNum;
+int retNumInBranch;
+int retNumInBody;
 bool flag;  
 
-//  <º¯ÊıÃû>£ºTYPES find_type(Type * type)
-//  <º¯Êı¹¦ÄÜËµÃ÷>£º¸ù¾İÓï·¨Ê÷ÖĞ²»Í¬µÄÀà·µ»Ø¾ßÌåµÄÀàĞÍ£¬·µ»ØÖµÎªÃ¶¾ÙÀàĞÍ 
 TYPES find_type(Type * type)
 {
     if (dynamic_cast<IntegerType *>(type)!=NULL)
@@ -42,9 +31,7 @@ TYPES find_type(Type * type)
         return RECORD_T;
     return ERROR_T;
 }
-
-//  <º¯ÊıÃû>£ºTYPES find_SymbolType(SymbolType * type)
-//  <º¯Êı¹¦ÄÜËµÃ÷>£º½«·ûºÅ±íÖĞ´¢´æµÄÔªËØµÄÀàĞÍ×ª»¯ÎªÃ¶¾ÙÀàĞÍTYPES    
+ 
 TYPES find_SymbolType(SymbolType * type)
 {
     if (dynamic_cast<Const *>(type)!=NULL) 
@@ -67,8 +54,6 @@ TYPES find_SymbolType(SymbolType * type)
     return ERROR_T;
 }
 
-//  <º¯ÊıÃû>£ºTYPES find_FD(ConstVariable * constVariable)
-//  <º¯Êı¹¦ÄÜËµÃ÷>£º·µ»ØconstÀàĞÍµÄ±äÁ¿µÄ¾ßÌåÀàĞÍTYPES 
 TYPES find_FD(ConstVariable * constVariable)
 {
     if (dynamic_cast<UnsignedIdentifierFD *>(constVariable)!=NULL)
@@ -78,7 +63,7 @@ TYPES find_FD(ConstVariable * constVariable)
     	else
     	{
     		//typeerror++;
-    		//cout<<"\nError: semantic error "<<typeerror<<" at Line "<<dynamic_cast<UnsignedIdentifierFD *>(constVariable)->lineNo<<":\n       ³£Á¿ÓÒÖµID»òÊı×éÏÂ±êIDÎ´¶¨Òå£¡"<<endl;
+    		//cout<<"\nError: semantic error "<<typeerror<<" at Line "<<dynamic_cast<UnsignedIdentifierFD *>(constVariable)->lineNo<<":\n       "<<endl;
     		return ERROR_T;
     	}
     }
@@ -89,7 +74,7 @@ TYPES find_FD(ConstVariable * constVariable)
     	else
     	{
     		//typeerror++;
-    		//cout<<"\nError: semantic error "<<typeerror<<" at Line "<<dynamic_cast<SignedIdentifierFD *>(constVariable)->lineNo<<":\n       ³£Á¿ÓÒÖµID»òÊı×éÏÂ±êIDÎ´¶¨Òå£¡"<<endl;
+    		//cout<<"\nError: semantic error "<<typeerror<<" at Line "<<dynamic_cast<SignedIdentifierFD *>(constVariable)->lineNo<<":\n      "<<endl;
     		return ERROR_T;
     	}
     }
@@ -112,21 +97,17 @@ TYPES find_FD(ConstVariable * constVariable)
     return ERROR_T;
 }
 
-//  <º¯ÊıÃû>£ºvoid Program::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£º¸ù½ÚµãµÄÓïÒå¼ì²éº¯Êıµ÷ÓÃ 
 void Program::checkType()
 {
 	//cout<<typeid(this).name()<<"::checkType() begin"<<endl;
     body->checkType();
     if(typeerror==0)
-    	cout<<"\n\n£¨2£©ÓïÒå·ÖÎöÍê³É£¬Î´·¢ÏÖ´íÎó£¡"<<endl<<endl;
+    	cout<<"\n\n"<<endl<<endl;
     else
-    	cout<<"\n\n£¨2£©ÓïÒå·ÖÎöÍê³É£¬·¢ÏÖ "<<typeerror<<" ¸ö´íÎó£¬ÒÑÁĞ³ö£¡"<<endl<<endl;
+    	cout<<"\n\n "<<typeerror<<" "<<endl<<endl;
     //cout<<typeid(this).name()<<"::checkType() end"<<endl;
 }
 
-//  <º¯ÊıÃû>£ºvoid ProgramBody::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£ºÖ÷º¯ÊıÌåµÄÀàĞÍ¼ì²é 
 void ProgramBody::checkType()
 {
 	//cout<<typeid(this).name()<<"::checkType() begin"<<endl;
@@ -150,16 +131,14 @@ void ProgramBody::checkType()
     //cout<<typeid(this).name()<<"::checkType() end"<<endl;
 }
 
-//  <º¯ÊıÃû>£ºvoid ConstDeclaration::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£º¶ÔConstÀàĞÍµÄ±äÁ¿ÉùÃ÷½øĞĞÏà¹ØµÄÀàĞÍ¼ì²éÒÔ¼°·ûºÅ±íµÄ²åÈë 
 void ConstDeclaration::checkType()
 { 
 	//cout<<typeid(this).name()<<"::checkType() begin"<<endl;
     Const* newTemp = new Const();
-	if (SymbolTable::getInstance()->find(id))//Èç¹ûÔÚµ±Ç°¿éÖĞÕÒµ½ÁËÍ¬ÃûµÄ±äÁ¿
+	if (SymbolTable::getInstance()->find(id))
 	{
 		typeerror++;
-		cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       ConstµÄ±äÁ¿ÃûÖØ¶¨Òå!" << endl;
+		cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       Const!" << endl;
 		return;
 	}
 	newTemp->setName(id);
@@ -186,7 +165,6 @@ void ConstDeclaration::checkType()
 			right=dynamic_cast<UnsignedIdentifierFD *>(constVariable)->id;
    		else if (dynamic_cast<SignedIdentifierFD *>(constVariable)!=NULL)
 			right=dynamic_cast<SignedIdentifierFD *>(constVariable)->id;
-		//Èç¹ûÎªConst¸³ÖµµÄÊÇ±äÁ¿£¬±äÁ¿µÄÀàĞÍ¼´ÎªConstµÄÀàĞÍ 
 		if (SymbolTable::getInstance()->find_in_global(right))
 		{
 			temp=SymbolTable::getInstance()->getType(right);
@@ -201,22 +179,19 @@ void ConstDeclaration::checkType()
 			else
 			{
 				typeerror++;
-				cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       Const¶¨ÒåÀàĞÍ²»·ûºÏÒªÇó£¡" << endl;
+				cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       Const" << endl;
 			}
 		}
-		//idÎªÎ´ÉùÃ÷±êÊ¶·û 
 		else
 		{
 			typeerror++;
-			cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       Const¶¨ÒåÓÒÖµÎªÎ´Öªid£¡" << endl;
+			cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       Const" << endl;
 		}
 	}
 	SymbolTable::getInstance()->insert(newTemp);
 	//cout<<typeid(this).name()<<"::checkType() end"<<endl;
 }
 
-//  <º¯ÊıÃû>£ºvoid TypeDeclaration::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£º¶Ôtype¶¨ÒåµÄĞÂÀàĞÍµÄÏà¹ØÀàĞÍ¼ì²éÒÔ¼°·ûºÅ±íµÄ²åÈë 
 void TypeDeclaration::checkType()
 {
 	//cout<<typeid(this).name()<<"::checkType() begin"<<endl;
@@ -253,8 +228,6 @@ void TypeDeclaration::checkType()
     //cout<<typeid(this).name()<<"::checkType() end"<<endl;
 }
 
-//  <º¯ÊıÃû>£ºvoid VarDeclaration::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£º¶Ô±äÁ¿µÄÉùÃ÷½øĞĞ Ïà¹ØÀàĞÍ¼ì²éÒÔ¼°·ûºÅ±íµÄ²åÈë 
 void VarDeclaration::checkType()
 {
 	//cout<<typeid(this).name()<<"::checkType() begin"<<endl;
@@ -287,7 +260,7 @@ void VarDeclaration::checkType()
             if(SymbolTable::getInstance()->find(identifierList[i]))
 			{
 				typeerror++;
-				cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n      ±äÁ¿ÖØ¶¨Òå." << endl;
+				cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n      ." << endl;
 				return;
 			} 
             temp->setName(identifierList[i]);
@@ -337,7 +310,7 @@ void VarDeclaration::checkType()
             	if(currentPtr->find(identifierList[i]))
             	{
             		typeerror++;
-					cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n      RecordÖĞ±äÁ¿ÖØ¶¨Òå." << endl;
+					cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n      Record." << endl;
             	}
             }
             currentPtr->insert(temp);
@@ -361,8 +334,6 @@ void VarDeclaration::checkType()
     //cout<<typeid(this).name()<<"::checkType() end"<<endl;
 }
 
-//  <º¯ÊıÃû>£ºvoid RecordType::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£ºrecordÀàĞÍµÄÀàĞÍ¼ì²é 
 void RecordType::checkType()
 {
 	//cout<<typeid(this).name()<<"::checkType() begin"<<endl;
@@ -373,8 +344,6 @@ void RecordType::checkType()
     //cout<<typeid(this).name()<<"::checkType() end"<<endl;
 }
 
-//  <º¯ÊıÃû>£ºvoid ArrayType::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£ºarrayÀàĞÍµÄÀàĞÍ¼ì²é 
 void ArrayType::checkType()
 {
 	//cout<<typeid(this).name()<<"::checkType() begin"<<endl;
@@ -410,15 +379,12 @@ void ArrayType::checkType()
     //cout<<typeid(this).name()<<"::checkType() end"<<endl;
 }
 
-//  <º¯ÊıÃû>£ºvoid Period::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£º¼ì²éÊı×éÃ¿Ò»Î¬µÄÉÏÏÂ½ç£¬ÍêÉÆÒÑ¾­²åÈëµ½·ûºÅ±íÖĞµÄarrayµÄĞÅÏ¢ 
 void Period::checkType()
 {
 	//cout<<typeid(this).name()<<"::checkType() begin"<<endl;
 	int head = 1;
 	int tail = 0;
 	Array* temp = dynamic_cast<Array*>(currentPtr);
-	//ÅĞ¶ÏÉÏÏÂ½çÀàĞÍÊÇ·ñÏàµÈ
 	if ((find_FD(lower) ==INT_T || find_FD(lower) ==CHAR_T)&&(find_FD(upper) ==INT_T || find_FD(upper) ==CHAR_T))
 	{
 		if(dynamic_cast<UnsignedIdentifierFD*>(lower)==NULL&&dynamic_cast<SignedIdentifierFD*>(lower)==NULL
@@ -429,7 +395,7 @@ void Period::checkType()
 			if(tail<=head)
 			{
 				typeerror++;
-				cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n      Êı×éÉÏÏÂ½çÃ¬¶Ü." << endl;
+				cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n      ." << endl;
 			}
 			temp->setInfo(tail - head + 1, head);		
 		}
@@ -439,13 +405,11 @@ void Period::checkType()
 	else
 	{
 		typeerror++;
-		cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n      Êı×éÉÏÏÂ½çÀàĞÍ²»Æ¥Åä." << endl;
+		cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n      ." << endl;
 	}
 	//cout<<typeid(this).name()<<"::checkType() end"<<endl;
 }
 
-//  <º¯ÊıÃû>£ºint LettersFD::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£º½«Óï·¨Ê÷Ê¶±ğ³öÀ´µÄ×Ö·û×ª»»³ÉasciiÂë·µ»Ø 
 int LettersFD::checkType()
 {
 	//cout<<typeid(this).name()<<"::checkType() begin"<<endl;
@@ -453,29 +417,25 @@ int LettersFD::checkType()
     //cout<<typeid(this).name()<<"::checkType() end"<<endl;
 }
 
-//  <º¯ÊıÃû>£ºint UnsignedNumFD::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£º½«ÎŞ·ûºÅÊı×ª»»³ÉÊıÖµ·µ»Ø 
 int UnsignedNumFD::checkType()
 {
 	//cout<<typeid(this).name()<<"::checkType() begin"<<endl;
 	/*if(num.find(".") != num.npos)
 	{
 		typeerror++;
-		cout << "Êı×éÏÂ±êÀàĞÍ´íÎó£¡" << endl;
+		cout << "ï¿½" << endl;
 	}*/
     return atoi(num.c_str());
     //cout<<typeid(this).name()<<"::checkType() end"<<endl;
 }
 
-//  <º¯ÊıÃû>£ºint SignedNumFD::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£º½«ÓĞ·ûºÅÊı×ª»»³ÉÊıÖµ·µ»Ø 
 int SignedNumFD::checkType()
 {
 	//cout<<typeid(this).name()<<"::checkType() begin"<<endl;
 	/*if(num.find(".") != num.npos)
 	{
 		typeerror++;
-		cout << "Êı×éÏÂ±êÀàĞÍ´íÎó£¡" << endl;
+		cout << "" << endl;
 	}*/
     if (sign)
         return atoi(num.c_str());
@@ -484,8 +444,6 @@ int SignedNumFD::checkType()
     //cout<<typeid(this).name()<<"::checkType() end"<<endl;
 }
 
-//  <º¯ÊıÃû>£ºvoid IntegerType::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£ºÊ¶±ğ³öarrayµÄÀàĞÍÎªint£¬²åÈëµ½µ±Ç°²Ù×÷µÄarrayÖ¸ÕëÖĞ 
 void IntegerType::checkType()
 {
 	//cout<<typeid(this).name()<<"::checkType() begin"<<endl;
@@ -496,8 +454,6 @@ void IntegerType::checkType()
     //cout<<typeid(this).name()<<"::checkType() end"<<endl;
 }
 
-//  <º¯ÊıÃû>£ºvoid RealType::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£ºÊ¶±ğ³öarrayµÄÀàĞÍÎªreal£¬²åÈëµ½µ±Ç°²Ù×÷µÄarrayÖ¸ÕëÖĞ 
 void RealType::checkType()
 {
 	//cout<<typeid(this).name()<<"::checkType() begin"<<endl;
@@ -507,8 +463,6 @@ void RealType::checkType()
     //cout<<typeid(this).name()<<"::checkType() end"<<endl;
 }
 
-//  <º¯ÊıÃû>£ºvoid BooleanType::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£ºÊ¶±ğ³öarrayµÄÀàĞÍÎªboolean£¬²åÈëµ½µ±Ç°²Ù×÷µÄarrayÖ¸ÕëÖĞ 
 void BooleanType::checkType()
 {
 	//cout<<typeid(this).name()<<"::checkType() begin"<<endl;
@@ -517,8 +471,6 @@ void BooleanType::checkType()
     temp->insert(newType);
 }
 
-//  <º¯ÊıÃû>£ºvoid CharType::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£ºÊ¶±ğ³öarrayµÄÀàĞÍÎªchar£¬²åÈëµ½µ±Ç°²Ù×÷µÄarrayÖ¸ÕëÖĞ 
 void CharType::checkType()
 {
 	//cout<<typeid(this).name()<<"::checkType() begin"<<endl;
@@ -527,8 +479,6 @@ void CharType::checkType()
     temp->insert(newType);
 }
 
-//  <º¯ÊıÃû>£ºvoid SubprogramDeclaration::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£º×Óº¯ÊıÉùÃ÷µÄÀàĞÍ¼ì²é 
 void SubprogramDeclaration::checkType()
 {
 	branchNum=0;
@@ -543,12 +493,10 @@ void SubprogramDeclaration::checkType()
 	    if(retNumInBody==0&&retNumInBranch!=branchNum)
 	    {
 	    	//typeerror++;
-			//cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n      ²»ÊÇËùÓĞµÄÇé¿ö¶¼ÓĞ·µ»ØÖµ." << endl;
+			//cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n      ." << endl;
 	    }
 }
 
-//  <º¯ÊıÃû>£ºbool SubprogramHead::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£º¶Ô×Óº¯ÊıÉùÃ÷µÄÍ·²¿µÄÀàĞÍ¼ì²é£¬°üÀ¨º¯ÊıÃû£¬²ÎÊı£¬·µ»ØÖµµÈµÄ¼ì²é 
 bool SubprogramHead::checkType()
 {
 	//cout<<typeid(this).name()<<"::checkType() begin"<<endl;
@@ -603,7 +551,7 @@ bool SubprogramHead::checkType()
                 if(newFunc->findpara(parameterLists[i]->identifierList[j]))
                 {
                 	typeerror++;
-					cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       ²ÎÊıÖØ¶¨Òå£¡" << endl;
+					cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       " << endl;
 					srand(unsigned(time(0)));
 					string s;
 					std::stringstream ss;
@@ -620,8 +568,6 @@ bool SubprogramHead::checkType()
     return true;
 }
 
-//  <º¯ÊıÃû>£ºvoid SubprogramBody::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£º¶Ô×Óº¯ÊıÌåµÄÀàĞÍ¼ì²é£¬Æä¼ì²éºÍÖ÷º¯ÊıµÄº¯ÊıÌå¼ì²é½á¹¹»ù±¾ÏàÍ¬ 
 void SubprogramBody::checkType()
 {
 	//cout<<typeid(this).name()<<"::checkType() begin"<<endl;
@@ -644,9 +590,6 @@ void SubprogramBody::checkType()
     compoundStatement->checkType();
 }
 
-//  <º¯ÊıÃû>£ºvoid CompoundStatement::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£º¶ÔÃ¿Ò»¸öº¯ÊıµÄÖ÷º¯ÊıÌåµÄÀàĞÍ¼ì²é
-//	¼´begin..end²¿·Ö 
 void CompoundStatement::checkType()
 {
 	//cout<<typeid(this).name()<<"::checkType() begin"<<endl;
@@ -658,21 +601,18 @@ void CompoundStatement::checkType()
     //cout<<typeid(this).name()<<"::checkType() end"<<endl;
 }
 
-//  <º¯ÊıÃû>£ºvoid AssignStatement::func(Variable* variable,Expression* expression)
-//  <º¯Êı¹¦ÄÜËµÃ÷>£º¸³ÖµÓï¾äÓÃÓÚ½øĞĞµİ¹éµ÷ÓÃµÄº¯Êı£¬ÎªÆächeckTypeµÄÖ÷Ìå 
-//	Ö÷ÒªË¼ÏëÊÇ¸ù¾İÃû×ÖµÈ¼ÛºÍÀàĞÍµÈ¼ÛÅĞ¶ÏÆäÊÇ·ñÏàµÈ 
 void AssignStatement::func(Variable* variable,Expression* expression)
 {
 	if(!SymbolTable::getInstance()->find_in_global(variable->id))
 	{
 		typeerror++;
-		cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       ±äÁ¿"<<variable->id<<"ÎªÎ´ÉùÃ÷±êÊ¶·û£¡" << endl;
+		cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       "<<variable->id<<"" << endl;
 		return;
 	}
 	if(dynamic_cast<Const*>(SymbolTable::getInstance()->getType(variable->id))!=NULL)
 	{
 		typeerror++;
-		cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       ±äÁ¿"<<variable->id<<"Îª³£Á¿£¬²»ÄÜ³öÏÖÔÚ¸³ÖµÓï¾ä×ó²à£¡" << endl;
+		cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       "<<variable->id<<"" << endl;
 		return;
 	}
 	
@@ -691,7 +631,7 @@ void AssignStatement::func(Variable* variable,Expression* expression)
 			if(variable->varRetType()!=dynamic_cast<Variable *>(expression)->varRetType())
 			{
 				typeerror++;
-				cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       ¸³ÖµÓï¾ä×óÓÒÖµÀàĞÍ²»¼æÈİ£¡" << endl;
+				cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       " << endl;
 			}
 		}
 		else
@@ -700,7 +640,7 @@ void AssignStatement::func(Variable* variable,Expression* expression)
 			{
 				
 				typeerror++;
-				cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       ¸³ÖµÓï¾ä×óÓÒÖµÀàĞÍ²»¼æÈİ£¡" << endl;
+				cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       " << endl;
 			}
 		}
 	}		
@@ -714,13 +654,11 @@ void AssignStatement::func(Variable* variable,Expression* expression)
 		{
 			typeerror++;
 			
-			cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       ¸³ÖµÓï¾ä×óÓÒÖµÀàĞÍ²»¼æÈİ£¡" << endl;
+			cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       " << endl;
 		}
 	}			 
 }
 
-//  <º¯ÊıÃû>£ºvoid AssignStatement::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£º¶Ô¸³ÖµÓï¾ä½øĞĞÀàĞÍ¼ì²é£¬Ö÷ÌåÊÇfunc()º¯Êı 
 void AssignStatement::checkType()
 {
 	//cout<<typeid(this).name()<<"::checkType() begin"<<endl;
@@ -730,17 +668,11 @@ void AssignStatement::checkType()
 	currentPtr = NULL;
 }
 
-//  <º¯ÊıÃû>£ºTYPES Variable::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£º·µ»Ø¸Ã±äÁ¿µÄÀàĞÍ£¬ÓÃÃ¶¾ÙÀàĞÍTYPE±íÊ¾ 
 TYPES Variable::checkType()
 {
 	//cout<<typeid(this).name()<<"::checkType() begin"<<endl;
 	return find_SymbolType(this->varRetType());	
 }
-
-//  <º¯ÊıÃû>£ºSymbolType* Variable::varRetType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£º¸ù¾İidºÍidVarParts¶ÔÒ»¸ö±äÁ¿½øĞĞÏà¹ØµÄÀàĞÍ¼ì²é£¬Èç¹û³ö´í·µ»Ønull£¬
-//	·ñÔò·µ»Ø¸Ã±äÁ¿µÄÀàĞÍ 
 
 SymbolType* Variable::varRetType()
 {
@@ -748,7 +680,7 @@ SymbolType* Variable::varRetType()
 	if (!(SymbolTable::getInstance()->find_in_global(id)))
 	{
 		typeerror++;
-		cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       ±äÁ¿"<<id<<"ÎªÎ´ÉùÃ÷±êÊ¶·û£¡" << endl;
+		cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       "<<id<<"" << endl;
 		return NULL;
 	}
 	
@@ -759,7 +691,7 @@ SymbolType* Variable::varRetType()
 		else
 		{
 			typeerror++;
-			cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       ¸³ÖµÓï¾ä×óÖµÀàĞÍ´íÎó£¡" << endl;
+			cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       " << endl;
 		}
 	}
 
@@ -770,7 +702,7 @@ SymbolType* Variable::varRetType()
 		if(fun->getRetType()==NULL)
 		{
 			typeerror++;
-			cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       ¹ı³ÌÎŞ·µ»ØÖµ£¡" << endl;
+			cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       " << endl;
 		}
 		else
 		{
@@ -782,19 +714,17 @@ SymbolType* Variable::varRetType()
 	{
 		currentPtr = SymbolTable::getInstance()->getType(id);
 		
-		//ÓÃcurrentPtr¼ÇÂ¼µ±Ç°¼ì²éµ½µÄÊı×éºÍrecord,ÔÚËûÃÇµÄÃ¿Ò»²ãÅĞ¶Ï¶ÔÓ¦µÄÊôĞÔ,(±ÈÈçÊı×éµÄÎ¬¶È),µ±ÏÂÃæµÄÑ­»·Íê³ÉÖ®ºó,ÅĞ¶Ï
-		//µ±Ç°µÄcurrentPtrÊÇ·ñÊÇ±ê×¼ÀàĞÍ,Èç¹ûÊÇ,Ôò·µ»ØËü¶ÔÓ¦µÄÀàĞÍ,·ñÔò,·µ»ØERROR_T,×îºóÒª°ÑcurrentPtr==NULL;
+
 		for (int i = 0; i < idVarParts.size(); i++)
 		{
 			
 			if (i == 0)
 			{
 				Array* temp = dynamic_cast<Array*>(currentPtr);
-				//ÅĞ¶ÏÎ¬¶ÈÊÇ·ñÏàµÈ
 				if (temp->getDim() != dynamic_cast<ArrayPart*>(idVarParts[i])->expressionList.size())
 				{
 					typeerror++;
-					cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       Êı×éÓë¶¨ÒåÎ¬¶È²»ÏàµÈ£¡" << endl;
+					cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       " << endl;
 					return NULL;
 				}
 				idVarParts[i]->checkType();
@@ -805,7 +735,7 @@ SymbolType* Variable::varRetType()
 					{
 						typeerror++;
 						
-						cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       ¸³ÖµÓï¾ä×óÖµÀàĞÍ´íÎó£¡" << endl;
+						cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       " << endl;
 						return NULL;
 					}
 					else
@@ -816,14 +746,13 @@ SymbolType* Variable::varRetType()
 			}
 			else
 			{
-				//Èç¹ûÊÇarray£¬ºÍi=0Ê±µÄÅĞ¶Ï·½·¨ÏàÍ¬
 				if (find_SymbolType(currentPtr)==ARRAY_T) 
 				{
 					Array* temp = dynamic_cast<Array*>(currentPtr);
 					if (temp->getDim() != dynamic_cast<ArrayPart*>(idVarParts[i])->expressionList.size())
 					{
 						typeerror++;
-						cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       Êı×éÓë¶¨ÒåÎ¬¶È²»ÏàµÈ£¡" << endl;
+						cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n      " << endl;
 						return NULL;
 					}
 					idVarParts[i]->checkType();
@@ -835,7 +764,7 @@ SymbolType* Variable::varRetType()
 						{
 							typeerror++;
 							
-							cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       ¸³ÖµÓï¾ä×óÖµÀàĞÍ´íÎó£¡" << endl;
+							cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       " << endl;
 							return NULL;
 						}
 						else
@@ -844,7 +773,6 @@ SymbolType* Variable::varRetType()
 						}
 					}
 				}
-				//Èç¹ûÊÇrecord£¬Ôò·µ»Ø¸ÃidµÄÀàĞÍ,È»ºó¼ÌĞøÑ­»·
 				else if (find_SymbolType(currentPtr)==RECORD_T)
 				{
 					Record* temp = dynamic_cast<Record*>(currentPtr);
@@ -852,7 +780,7 @@ SymbolType* Variable::varRetType()
 					if (temp->getType(dynamic_cast<MemberPart*>(idVarParts[i])->id) == NULL)
 					{
 						typeerror++;
-						cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       ¸³ÖµÓï¾ä×óÖµ±äÁ¿²»´æÔÚ." << endl;
+						cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       ." << endl;
 						return NULL;
 					}
 					else
@@ -869,8 +797,7 @@ SymbolType* Variable::varRetType()
 	if (find_SymbolType(SymbolTable::getInstance()->getType(id)) == RECORD_T)
 	{
 		currentPtr = SymbolTable::getInstance()->getType(id);
-		//ÓÃcurrentPtr¼ÇÂ¼µ±Ç°¼ì²éµ½µÄÊı×éºÍrecord,ÔÚËûÃÇµÄÃ¿Ò»²ãÅĞ¶Ï¶ÔÓ¦µÄÊôĞÔ,(±ÈÈçÊı×éµÄÎ¬¶È),µ±ÏÂÃæµÄÑ­»·Íê³ÉÖ®ºó,ÅĞ¶Ï
-		//µ±Ç°µÄcurrentPtrÊÇ·ñÊÇ±ê×¼ÀàĞÍ,Èç¹ûÊÇ,Ôò·µ»ØËü¶ÔÓ¦µÄÀàĞÍ,·ñÔò,·µ»ØERROR_T,×îºóÒª°ÑcurrentPtr==NULL;
+
 		for (int i = 0; i < idVarParts.size(); i++)
 		{
 			if (i == 0)
@@ -882,7 +809,7 @@ SymbolType* Variable::varRetType()
 				if (temp->getType(dynamic_cast<MemberPart*>(idVarParts[i])->id) == NULL)
 				{
 					typeerror++;
-					cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       ¸³ÖµÓï¾ä×óÖµ±äÁ¿²»´æÔÚ." << endl;
+					cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       ." << endl;
 					return NULL;
 				}
 				else
@@ -896,7 +823,7 @@ SymbolType* Variable::varRetType()
 						{
 							typeerror++;
 							
-							cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       ¸³ÖµÓï¾ä×óÖµÀàĞÍ´íÎó£¡" << endl;
+							cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       " << endl;
 							return NULL;
 						}
 						else
@@ -912,7 +839,7 @@ SymbolType* Variable::varRetType()
 				{
 						typeerror++;
 						
-						cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       ¸³ÖµÓï¾ä×óÖµÀàĞÍ´íÎó£¡" << endl;
+						cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       " << endl;
 						return NULL;
 				}
 				else if (find_SymbolType(currentPtr)==ARRAY_T)
@@ -921,7 +848,7 @@ SymbolType* Variable::varRetType()
 					if (temp->getDim() != dynamic_cast<ArrayPart*>(idVarParts[i])->expressionList.size())
 					{
 						typeerror++;
-						cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       Êı×éÓë¶¨ÒåÎ¬¶È²»ÏàµÈ£¡" << endl;
+						cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       " << endl;
 						return NULL;
 					}
 					idVarParts[i]->checkType();
@@ -931,7 +858,7 @@ SymbolType* Variable::varRetType()
 						if (i != idVarParts.size() - 1)
 						{
 							typeerror++;
-							cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       ¸³ÖµÓï¾ä×óÖµÀàĞÍ´íÎó£¡" << endl;
+							cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       " << endl;
 							return NULL;
 						}
 						else
@@ -940,14 +867,13 @@ SymbolType* Variable::varRetType()
 						}
 					}
 				}
-				//Èç¹ûÊÇrecord£¬Ôò·µ»Ø¸ÃidµÄÀàĞÍ,È»ºó¼ÌĞøÑ­»·
 				else if (find_SymbolType(currentPtr)==RECORD_T)
 				{
 					Record* temp = dynamic_cast<Record*>(currentPtr);
 					if (temp->getType(dynamic_cast<MemberPart*>(idVarParts[i])->id) == NULL)
 					{
 						typeerror++;
-						cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       ¸³ÖµÓï¾ä×óÖµ±äÁ¿²»´æÔÚ." << endl;
+						cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       ." << endl;
 						return NULL;
 					}
 					else
@@ -958,7 +884,7 @@ SymbolType* Variable::varRetType()
 							if (i != idVarParts.size() - 1)
 							{
 								typeerror++;
-								cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       ¸³ÖµÓï¾ä×óÖµÀàĞÍ´íÎó£¡" << endl;
+								cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       " << endl;
 								return NULL;
 							}
 							else
@@ -975,8 +901,6 @@ SymbolType* Variable::varRetType()
 	//cout<<typeid(this).name()<<"::varRetType() end"<<endl;
 }
 
-//  <º¯ÊıÃû>£ºTYPES ArrayPart::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£º¶ÔÀàĞÍÎªarrayµÄ±äÁ¿À¨ºÅÖĞµÄÃ¿Ò»²¿·Ö½øĞĞÀàĞÍ¼ì²é 
 TYPES ArrayPart::checkType()
 {
 	//cout<<typeid(this).name()<<"::checkType() begin"<<endl;
@@ -991,7 +915,7 @@ TYPES ArrayPart::checkType()
 					if(atoi(dynamic_cast<Num *> (expressionList[i])->num.c_str())+temp->getHead(i)>temp->getLength(i)||atoi(dynamic_cast<Num *> (expressionList[i])->num.c_str())<temp->getHead(i))	
 					{
 						typeerror++;
-						cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       Êı×éÔ½½ç." << endl;
+						cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       ." << endl;
 					}
 				}
 				
@@ -1003,7 +927,7 @@ TYPES ArrayPart::checkType()
 					if(dynamic_cast<Letters *> (expressionList[i])->letters.c_str()[1] + temp->getHead(i) > temp->getLength(i)||atoi(dynamic_cast<Num *> (expressionList[i])->num.c_str())<temp->getHead(i))	
 					{
 						typeerror++;
-						cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       Êı×éÔ½½ç." << endl;
+						cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       ." << endl;
 					}
 				}
 				
@@ -1013,19 +937,15 @@ TYPES ArrayPart::checkType()
     }
 }
 
-//  <º¯ÊıÃû>£ºTYPES MemberPart::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£ºÆä¼ì²éRecord³ÉÔ±µÄ¹¦ÄÜÒÑ¾­ÔÚVarRetType()ÖĞÊµÏÖ 
 TYPES MemberPart::checkType(){}
 
-//  <º¯ÊıÃû>£ºvoid CallProcedureStatement::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£ºÔÚµ÷ÓÃÒ»¸ö¹ı³ÌÊ±¶ÔÆä½øĞĞÀàĞÍ¼ì²é 
 void CallProcedureStatement::checkType()
 {
 	//cout<<typeid(this).name()<<"::checkType() begin"<<endl;
-	if (!SymbolTable::getInstance()->find_in_global(id))		//Èç¹û²»ÊÇÒ»¸öº¯Êı
+	if (!SymbolTable::getInstance()->find_in_global(id))
 	{
 		typeerror++;
-		cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       ¸Ãº¯ÊıÎ´¶¨Òå£¡" << endl;
+		cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n      " << endl;
 		return;
 	}	
 	if (find_SymbolType(SymbolTable::getInstance()->getType(id)) == FUNCTION_T)
@@ -1034,7 +954,7 @@ void CallProcedureStatement::checkType()
 		if (temp->retParaNum() != expressionList.size())
 		{
 			typeerror++;
-			cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       º¯Êı»ò¹ı³Ì²ÎÊıÊıÄ¿²»Æ¥Åä£¡" << endl;
+			cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n      " << endl;
 			return;
 		}
 		for (int i = 0; i < expressionList.size(); i++)
@@ -1042,7 +962,7 @@ void CallProcedureStatement::checkType()
 			if (find_SymbolType(temp->getParaType(i)) != expressionList[i]->checkType())
 			{
 				typeerror++;
-				cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       º¯Êı»ò¹ı³Ì²ÎÊıÀàĞÍ²»Æ¥Åä£¡" << endl;
+				cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       " << endl;
 				return;
 			}
 			if(temp->getParaType(i)->getReference())
@@ -1050,7 +970,7 @@ void CallProcedureStatement::checkType()
 				if(dynamic_cast<Variable*>(expressionList[i])==NULL)
 				{
 					typeerror++;
-					cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       º¯Êı²ÎÊı²»ÄÜ×÷ÎªÒıÓÃµ÷ÓÃ£¡" << endl;
+					cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n      " << endl;
 					return ;
 				}
 				else
@@ -1058,7 +978,7 @@ void CallProcedureStatement::checkType()
 					if(!dynamic_cast<Variable*>(expressionList[i])->idVarParts.empty())
 					{
 					typeerror++;
-					cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       º¯Êı²ÎÊı²»ÄÜ×÷ÎªÒıÓÃµ÷ÓÃ£¡" << endl;
+					cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       " << endl;
 					return ;
 					}
 				}
@@ -1069,12 +989,10 @@ void CallProcedureStatement::checkType()
 	else
 	{
 		typeerror++;
-		cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       ÕâÊÇÒ»¸ö¹ı³Ì£¬ÎŞ·µ»ØÖµ£¡" << endl;
+		cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       " << endl;
 	}
 }
 
-//  <º¯ÊıÃû>£ºvoid IfStatement::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£º¶ÔifÓï¾äµÄÀàĞÍ¼ì²é 
 void IfStatement::checkType()
 {
 	//cout<<typeid(this).name()<<"::checkType() begin"<<endl;
@@ -1082,7 +1000,7 @@ void IfStatement::checkType()
     if (expression->checkType() != BOOL_T) 
 	{
         typeerror++;
-        cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       IfÓï¾äÅĞ¶ÏÌõ¼şÀàĞÍ²»Æ¥Åä£¡" << endl; 
+        cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       If" << endl; 
     }
     if (thenStatement != NULL)
 	{
@@ -1101,16 +1019,14 @@ void IfStatement::checkType()
     //cout<<typeid(this).name()<<"::checkType() end"<<endl;
 }
 
-//  <º¯ÊıÃû>£ºvoid CaseStatement::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£º¶ÔcaseÓï¾äµÄÀàĞÍ¼ì²é 
-void CaseStatement::checkType()	//²»ÄÜÏ¹Ç¿ÖÆÀàĞÍ×ª»»
+void CaseStatement::checkType()	
 {
 	
 	//cout<<typeid(this).name()<<"::checkType() begin"<<endl;
     if (expression->checkType() != BOOL_T && expression->checkType() != INT_T && expression->checkType() != CHAR_T)
 	{
         typeerror++;
-        cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       CaseÓï¾äÅĞ¶ÏÌõ¼şÀàĞÍ²»Æ¥Åä£¡" << endl;    
+        cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       Case" << endl;    
     }
     for (int i = 0; i < branchList.size(); i++)
 	{
@@ -1119,14 +1035,12 @@ void CaseStatement::checkType()	//²»ÄÜÏ¹Ç¿ÖÆÀàĞÍ×ª»»
 		if (branchList[i]->checkType() != expression->checkType())
 		{
 			typeerror++;
-			cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       CaseÓï¾äÅĞ¶ÏÌõ¼şÀàĞÍ²»Æ¥Åä£¡" << endl;
+			cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       Case" << endl;
 		}
 		flag=false;
     }
 }
 
-//  <º¯ÊıÃû>£ºTYPES Branch::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£º¶ÔcaseµÄÃ¿Ò»¸ö·ÖÖ§µÄÀàĞÍ¼ì²é 
 TYPES Branch::checkType()
 {
 	//cout<<typeid(this).name()<<"::checkType() begin"<<endl;
@@ -1136,29 +1050,25 @@ TYPES Branch::checkType()
 		if (find_FD(constVariable.at(i)) != temp)//num
 		{
 			typeerror++;
-			cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       CaseÓï¾äÅĞ¶ÏÌõ¼şÀàĞÍ²»Æ¥Åä£¡" << endl;
+			cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n      " << endl;
 			return ERROR_T;
 		}
 	}
-	statement->checkType();//¼´Ê¹Ìõ¼ş´íÎó£¬ÈÔÈ»ÅĞ¶ÏÆäÕıÈ·ĞÔ
+	statement->checkType();
 	return temp;
 }
 
-//  <º¯ÊıÃû>£ºvoid WhileStatement::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£º¶ÔwhileÑ­»·µÄÀàĞÍ¼ì²é 
 void WhileStatement::checkType()
 {
 	//cout<<typeid(this).name()<<"::checkType() begin"<<endl;
     if (expression->checkType() != BOOL_T)
 	{
         typeerror++;
-        cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       WhileÓï¾äÅĞ¶ÏÌõ¼şÀàĞÍ²»Æ¥Åä£¡" << endl;
+        cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n      " << endl;
     }
     statement->checkType();
 }
 
-//  <º¯ÊıÃû>£ºvoid RepeatStatement::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£º¶ÔrepeatÓï¾äµÄÀàĞÍ¼ì²é 
 void RepeatStatement::checkType()
 { 
 	//cout<<typeid(this).name()<<"::checkType() begin"<<endl;
@@ -1169,30 +1079,26 @@ void RepeatStatement::checkType()
     if (expression->checkType() != BOOL_T)
 	{
         typeerror++;
-        cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       RepeatÓï¾äÅĞ¶ÏÌõ¼şÀàĞÍ²»Æ¥Åä£¡" << endl;                        
+        cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n      " << endl;                        
     }
 }
 
-//  <º¯ÊıÃû>£ºvoid ForStatement::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£º¶ÔforÑ­»·µÄÀàĞÍ¼ì²é 
 void ForStatement::checkType()
 {
 	//cout<<typeid(this).name()<<"::checkType() begin"<<endl;
 	if (!SymbolTable::getInstance()->find_in_global(id))
 	{
 		typeerror++;
-		cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       ForÓï¾äÅĞ¶ÏÌõ¼şidÎ´¶¨Òå£¡" << endl;
+		cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n     " << endl;
 	}
     else if (find_SymbolType(SymbolTable::getInstance()->getType(id)) != INT_T || lower->checkType() != INT_T || upper->checkType() != INT_T)
 	{
 		typeerror++;
-        cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       ForÓï¾äÅĞ¶ÏÌõ¼şÀàĞÍ²»Æ¥Åä£¡" << endl;
+        cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n     " << endl;
     }
     statement->checkType();
 }
 
-//  <º¯ÊıÃû>£ºvoid WriteStatement::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£º¶ÔwriteÓï¾äµÄÀàĞÍ¼ì²é 
 void WriteStatement::checkType()
 {
 	//cout<<typeid(this).name()<<"::checkType() begin"<<endl;
@@ -1202,57 +1108,52 @@ void WriteStatement::checkType()
     }
 }
 
-//  <º¯ÊıÃû>£ºTYPES BinaryExpression::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£º¶Ô¶şÔª±È½ÏÔËËã·ûÈç=£¬!=£¬>,<µÈµÄÀàĞÍ¼ì²é£¬·µ»Øtrue»ònull 
 TYPES BinaryExpression::checkType()
 {
 	//cout<<typeid(this).name()<<"::checkType() begin"<<endl;
     if (left->checkType() != right->checkType())
-	{  //×óÓÒÀàĞÍÊÇ·ñÒ»ÖÂ
+	{  
 		typeerror++;
-		cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       ×óÓÒ±í´ïÊ½ÀàĞÍ²»Æ¥Åä£¡" << endl;
-	}                   //¹ØÏµÔËËã·ûÁ½±ßµÄÀàĞÍ²»¶Ô£¬±¨´í  
-    return BOOL_T;                                  //±í´ïÊ½µÄÀàĞÍÎªboolean
+		cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n     " << endl;
+	}                  
+    return BOOL_T;                                  
 }
 
-//  <º¯ÊıÃû>£ºTYPES BinarySimpleExpression::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£º¶Ô+£¬-£¬orµÈÔËËãµÄÀàĞÍ¼ì²é£¬Èç¹ûÊÇor·µ»ØBOOL_T
-//	+»ò-·µ»ØÆäÔËËã½á¹ûµÄÀàĞÍ 
 TYPES BinarySimpleExpression::checkType()
 {
 	//cout<<typeid(this).name()<<"::checkType() begin"<<endl;
-    if (addop == OR)		//Ê²Ã´»ù±¾ÀàĞÍ¶¼ÄÜÅĞ¶Ï
-	{                                       //ÈôÎªOR,×óÓÒÎªBooleanType
+    if (addop == OR)		
+	{                                       
         /*if (!(simpleExpression->checkType() == BOOL_T && term->checkType() == BOOL_T))
 		{
             typeerror++;
-            cout << "BinarySimpleExpression-OR-type_error" << endl;                           //ÀàĞÍ²»¶Ô£¬±¨´í
+            cout << "BinarySimpleExpression-OR-type_error" << endl;                         
         }*/
-        return BOOL_T;                                       //±í´ïÊ½ÀàĞÍÎªBooleanType
+        return BOOL_T;                                      
     }
     else 
-	{                                                  //ÈôÎª+¡¢-,×óÓÒ¶¼Îªint
+	{                                                 
         /*if (simpleExpression->checkType() == INT_T&& term->checkType() == INT_T)
 		{
-            return TYPES::INT_T;         //·µ»Øint
-        }                                                  //ÈôÎª+¡¢-,×óÓÒ¶¼Îªreal
+            return TYPES::INT_T;         
+        }                                                 
         else if (simpleExpression->checkType() == TYPES::REAL_T && term->checkType() == TYPES::REAL_T)
 		{
-            return TYPES::REAL_T;           //·µ»Øreal 
-        }                                                  //ÈôÎª+¡¢-,×óÎªrealÓÒÎªint
+            return TYPES::REAL_T;           
+        }                                                  
         else if (simpleExpresson->checkType() == TYPES::REAL_T && term->checkType() == INT_T)
 		{
-            return TYPES::REAL_T;          //·µ»Øreal                         
-        }                                                  //ÈôÎª+¡¢-,×óÎªintÓÒÎªreal
+            return TYPES::REAL_T;                       
+        }                                                
         else if (simpleExpression->checkType() == INT_T && term->checkType() == TYPES::REAL_T)
 		{
-            return TYPES::REAL_T;           //·µ»Øreal  
+            return TYPES::REAL_T;        
         }
         else
-		{                           //²»·ûºÏÉÏÊöÇé¿ö
+		{                       
             typeerror++;
-            cout << "BinarysimpleExpression-PLUS/MINUS-type_error" << endl;       //ÀàĞÍ²»¶Ô£¬±¨´í 
-            return TYPES::ERROR_T;            //·µ»Øreal  
+            cout << "BinarysimpleExpression-PLUS/MINUS-type_error" << endl;      
+            return TYPES::ERROR_T;            
 		}*/
 		if (simpleExpression->checkType() == REAL_T || term->checkType() == REAL_T)
 			return REAL_T;
@@ -1261,62 +1162,58 @@ TYPES BinarySimpleExpression::checkType()
     }
 }
 
-//  <º¯ÊıÃû>£ºTYPES SignedTerm::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£ºÓĞ·ûºÅÏîµÄÀàĞÍ¼ì²é 
 TYPES SignedTerm::checkType()
 {
 	//cout<<typeid(this).name()<<"::checkType() begin"<<endl;
     return term->checkType();
 }
 
-//  <º¯ÊıÃû>£ºTYPES BinaryTerm::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£º¶ÔAND£¬ÒÔ¼°³Ë³ıµÄÀàĞÍ¼ì²é £¬·µ»ØÆä½á¹ûµÄÀàĞÍ 
 TYPES BinaryTerm::checkType()
 {
 	//cout<<typeid(this).name()<<"::checkType() begin"<<endl;
 	if (term->checkType() == ERROR_T || factor->checkType() == ERROR_T )
 	{
         typeerror++;
-		cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       ÔËËãÀàĞÍ´íÎó£¡" << endl;
+		cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n    " << endl;
 		return ERROR_T;
     }
-	if (mulop == AND)		//Ê²Ã´»ù±¾ÀàĞÍ¶¼ÄÜÅĞ¶Ï
-	{                                       //ÈôÎªand,×óÓÒd¶¼ÎªBooleanType
+	if (mulop == AND)		
+	{                                       
 		/*if (!(term->checkType() == BOOL_T && factor->checkType() == BOOL_T))
 		{
 		typeerror++;
-		cout << "BinaryTerm-AND-type_error" << endl;                            //ÀàĞÍ²»¶Ô£¬±¨´í
+		cout << "BinaryTerm-AND-type_error" << endl;                           
 		}*/
-		return BOOL_T;             //±í´ïÊ½ÀàĞÍÎªBoolean
+		return BOOL_T;            
 	}
     else if (mulop == INTDIVIDE || mulop == MOD)
-	{                 //ÈôÎªdiv¡¢mod,×óÓÒÎªint 
+	{                
         
-        return INT_T;                                  //±í´ïÊ½ÀàĞÍÎªint
+        return INT_T;                            
     }
-	else            //+,-ÈÔÈ»Ê²Ã´ÀàĞÍ¶¼¿ÉÒÔÔËËã
-	{                                                    //ÈôÎª*¡¢/,×óÓÒ¶¼Îªint
+	else   
+	{                                             
         /*if (term->checkType() == INT_T && factor->checkType() == INT_T)
 		{
-            return INT_T;         //·µ»Øint
-        }                                                  //ÈôÎª*¡¢/,×óÓÒ¶¼Îªreal
+            return INT_T;  
+        }                                                
         else if (term->checkType() == TYPES::REAL_T && factor->checkType() == TYPES::REAL_T)
 		{
-            return TYPES::REAL_T;           //·µ»Øreal 
-        }                                                  //ÈôÎª*¡¢/,×óÎªrealÓÒÎªint
+            return TYPES::REAL_T;        
+        }                                                 
         else if (term->checkType() == TYPES::REAL_T && factor->checkType() == INT_T)
 		{
-            return TYPES::REAL_T;          //·µ»Øreal                         
-        }                                                  //ÈôÎª*¡¢/,×óÎªintÓÒÎªreal
+            return TYPES::REAL_T;            
+        }                                              
         else if (term->checkType() == INT_T && factor->checkType() == TYPES::REAL_T)
 		{
-            return TYPES::REAL_T;           //·µ»Øreal  
+            return TYPES::REAL_T;         
         }
         else 
-		{                                             //²»·ûºÏÉÏÊöÇé¿ö
+		{                                           
             typeerror++;
-            cout << "BinaryTerm-MULTIPLY/REALDIVIDE-type_error" << endl;       //ÀàĞÍ²»¶Ô£¬±¨´í 
-            return TYPES::REAL_T;            //·µ»Øreal  
+            cout << "BinaryTerm-MULTIPLY/REALDIVIDE-type_error" << endl;     
+            return TYPES::REAL_T;   
         }*/
 		if (term->checkType() == REAL_T || factor->checkType() == REAL_T)
 			return REAL_T;
@@ -1325,8 +1222,6 @@ TYPES BinaryTerm::checkType()
     }
 }
 
-//  <º¯ÊıÃû>£ºTYPES FunctionCall::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£º¶Ôº¯Êıµ÷ÓÃµÄÀàĞÍ¼ì²é£¬¾ßÌåÎª²ÎÊıÁĞ±íµÈµÄ¼ì²é£¬·µ»Øº¯ÊıµÄ·µ»ØÖµ 
 TYPES FunctionCall::checkType()
 {
 	//cout<<typeid(this).name()<<"::checkType() begin"<<endl;
@@ -1335,19 +1230,19 @@ TYPES FunctionCall::checkType()
 	if (!SymbolTable::getInstance()->find_in_global(id))
 	{
 		typeerror++;
-		cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       ¸Ãº¯Êı»ò¹ı³ÌÎ´¶¨Òå£¡" << endl;
+		cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       " << endl;
 		return ERROR_T;
 	}
 	if (temp->getRetType() == NULL)
 	{
 		typeerror++;
-		cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       ÊÇ¹ı³Ì¶ø²»ÊÇÒ»¸öº¯Êı£¡" << endl;
+		cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n  " << endl;
 		return ERROR_T;
 	}
 	if (temp->retParaNum() != expressionList.size())
 	{
 		typeerror++;
-		cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       ¸Ãº¯Êı»ò¹ı³Ìµ÷ÓÃ²ÎÊıÊıÄ¿²»Æ¥Åä£¡" << endl;
+		cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       " << endl;
 	}
 	for (int i = 0; i < expressionList.size(); i++)
 	{
@@ -1355,7 +1250,7 @@ TYPES FunctionCall::checkType()
 		/*if (find_SymbolType(temp->getParaType(i)) != expressionList[i]->checkType())
 		{
 			typeerror++;
-			cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       ¸Ãº¯Êı»ò¹ı³Ìµ÷ÓÃ²ÎÊıÀàĞÍ²»Æ¥Åä£¡" << endl;
+			cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       " << endl;
 		}*/
 		expressionList[i]->checkType();
 		if(temp->getParaType(i)->getReference())
@@ -1363,55 +1258,47 @@ TYPES FunctionCall::checkType()
 			if(dynamic_cast<Variable*>(expressionList[i])==NULL)
 			{
 				typeerror++;
-				cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       º¯Êı²ÎÊı²»ÄÜ×÷ÎªÒıÓÃµ÷ÓÃ£¡" << endl;
+				cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       " << endl;
 			}
 			else
 			{
 				if(!dynamic_cast<Variable*>(expressionList[i])->idVarParts.empty())
 				{
 				typeerror++;
-				cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       º¯Êı²ÎÊı²»ÄÜ×÷ÎªÒıÓÃµ÷ÓÃ£¡" << endl;
+				cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       " << endl;
 				}
 			}
 			
 		}
 	}
-    return find_SymbolType(temp->getRetType());                //²éÕÒ·ûºÅ±í,µÃµ½º¯Êı·µ»ØÖµÀàĞÍ²¢·µ»Ø
+    return find_SymbolType(temp->getRetType())
 }
 
-//  <º¯ÊıÃû>£ºTYPES Num::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£º¶ÔNumµÄÀàĞÍ¼ì²é£¬·µ»ØINT_T»òBOOL_T 
 TYPES Num::checkType()
 {
 	//cout<<typeid(this).name()<<"::checkType() begin"<<endl;
     if (num.find(".") != num.npos)
-	{          //ÓĞĞ¡Êıµã,·µ»Øreal
+	{
         return REAL_T;
     }
     else
 	{
-		return INT_T;                           //·ñÔò·µ»Øint
+		return INT_T; 
     }
 }
 
-//  <º¯ÊıÃû>£ºTYPES Letters::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£º¶Ô×Ö·ûµÄÀàĞÍ¼ì²é£¬·µ»ØCHAR_T 
 TYPES Letters::checkType()
 {
 	//cout<<typeid(this).name()<<"::checkType() begin"<<endl;
     return CHAR_T; 
 }
 
-//  <º¯ÊıÃû>£ºTYPES Parenthesis::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£ºÓÃÓÚParenetthesisÀàµÄÀàĞÍ¼ì²é 
 TYPES Parenthesis::checkType()
 {
 	//cout<<typeid(this).name()<<"::checkType() begin"<<endl;
     return expression->checkType();
 }
 
-//  <º¯ÊıÃû>£ºTYPES Not::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£º¶ÔNotÓï¾äµÄÀàĞÍ¼ì²é 
 TYPES Not::checkType()
 {
 	//cout<<typeid(this).name()<<"::checkType() begin"<<endl;
@@ -1420,13 +1307,11 @@ TYPES Not::checkType()
     else
     {
     	typeerror++;
-		cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       NotÄÚ²¿²ÎÊıÀàĞÍ´íÎó£¡" << endl;
+		cout<<"\nError: semantic error "<<typeerror<<" at Line "<<lineNo<<":\n       Notï¿½Ú²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í´ï¿½ï¿½ï¿½" << endl;
 		return ERROR_T;
 	} 
 }
 
-//  <º¯ÊıÃû>£ºTYPES Boolean::checkType()
-//  <º¯Êı¹¦ÄÜËµÃ÷>£º¶Ô²¼¶ûÖµ(true»òfalse)µÄÀàĞÍ¼ì²é 
 TYPES Boolean::checkType()
 {
 	//cout<<typeid(this).name()<<"::checkType() begin"<<endl;

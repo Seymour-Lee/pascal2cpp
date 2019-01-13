@@ -1,31 +1,18 @@
-//
-//  <文件名>：ASTPrintCodes.cpp
-//  <文件内容>：该文件包含了所有语法树相关类的printCodes()函数的实现
-// 
-//  <创建日期>：12/03/2017
-
-//  包含头文件
 #include "AbstractSyntaxTree.h"
 #include "Writer.h"
 #include "SymbolTable.h"
 
-//  宏定义
 #define tab Writer::getInstance().printTabs()
 
-//  命名空间声明
 using namespace std;
 
-//  全局变量定义，用于定义函数序号 
 int func_location=0;
 
-//
-//  <函数名>：void Program::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void Program::printCodes(char* outName){
     std::ofstream fout;
-    fout.open(outName);//打开输出文件
+    fout.open(outName);
     
-    Writer::getInstance().rdbuf(fout.rdbuf());//单例化，完成输出流重定向
+    Writer::getInstance().rdbuf(fout.rdbuf());
     
     ostream& cout = Writer::getInstance();
     
@@ -41,16 +28,10 @@ void Program::printCodes(char* outName){
     this->body->printCodes();
 }
 
-//
-//  <函数名>：void ProgramHead::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void ProgramHead::printCodes(){
     //ostream& cout=Writer::getInstance();
 }
 
-//
-//  <函数名>：void ProgramBody::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void ProgramBody::printCodes(){
     ostream& cout=Writer::getInstance();
     for (int i=0; i<constDeclarations.size(); i++) {
@@ -92,9 +73,6 @@ void ProgramBody::printCodes(){
     
 }
 
-//
-//  <函数名>：void ConstDeclaration::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void ConstDeclaration::printCodes(){
     ostream& cout=Writer::getInstance();
     
@@ -130,49 +108,31 @@ void ConstDeclaration::printCodes(){
     }
 }
 
-//
-//  <函数名>：void UnsignedIdentifierFD::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void UnsignedIdentifierFD::printCodes(){
     ostream& cout=Writer::getInstance();
     cout<<id;
 }
 
-//
-//  <函数名>：void SignedIdentifierFD::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void SignedIdentifierFD::printCodes(){
     ostream& cout=Writer::getInstance();
     cout<<(sign? "+": "-")+id;
 }
 
-//
-//  <函数名>：void UnsignedNumFD::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void UnsignedNumFD::printCodes(){
     ostream& cout=Writer::getInstance();
     cout<<num;
 }
 
-//
-//  <函数名>：void SignedNumFD::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void SignedNumFD::printCodes(){
     ostream& cout=Writer::getInstance();
     cout<<(sign? "+": "-")+num;
 }
 
-//
-//  <函数名>：void LettersFD::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void LettersFD::printCodes(){
     ostream& cout=Writer::getInstance();
     cout<<letters;
 }
 
-//
-//  <函数名>：void TypeDeclaration::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void TypeDeclaration::printCodes(){
     ostream& cout=Writer::getInstance();
     
@@ -208,9 +168,6 @@ void TypeDeclaration::printCodes(){
     }
 }
 
-//
-//  <函数名>：void VarDeclaration::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void VarDeclaration::printCodes(){
     ostream& cout=Writer::getInstance();
     if(dynamic_cast<IntegerType *>(type)!=NULL){
@@ -283,9 +240,6 @@ void VarDeclaration::printCodes(){
     }
 }
 
-//
-//  <函数名>：void RecordType::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void RecordType::printCodes(){
     ostream& cout=Writer::getInstance();
     cout<<"struct {"<<endl;
@@ -297,9 +251,6 @@ void RecordType::printCodes(){
     cout<<"}";
 }
 
-//
-//  <函数名>：void ArrayType::printType()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void ArrayType::printType(){
     if(dynamic_cast<IntegerType *>(type)!=NULL){
         IntegerType * integerType=dynamic_cast<IntegerType *>(type);
@@ -323,18 +274,12 @@ void ArrayType::printType(){
     }
 }
 
-//
-//  <函数名>：void ArrayType::printPeriods()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void ArrayType::printPeriods(){
     for (int i=0; i<periods.size(); i++) {
         periods[i]->printCodes();
     }
 }
 
-//
-//  <函数名>：void ArrayType::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void ArrayType::printCodes(){
     //ostream& cout=Writer::getInstance();
     if(dynamic_cast<IntegerType *>(type)!=NULL){
@@ -367,9 +312,6 @@ void ArrayType::printCodes(){
     }
 }
 
-//
-//  <函数名>：void Period::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void Period::printCodes(){
     ostream& cout=Writer::getInstance();
     cout<<"[(";
@@ -422,41 +364,26 @@ void Period::printCodes(){
     cout<<")+1]";
 }
 
-//
-//  <函数名>：void IntegerType::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void IntegerType::printCodes(){
     ostream& cout=Writer::getInstance();
     cout<<"int";
 }
 
-//
-//  <函数名>：void RealType::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void RealType::printCodes(){
     ostream& cout=Writer::getInstance();
     cout<<"double";
 }
 
-//
-//  <函数名>：void BooleanType::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void BooleanType::printCodes(){
     ostream& cout=Writer::getInstance();
     cout<<"bool";
 }
 
-//
-//  <函数名>：void CharType::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void CharType::printCodes(){
     ostream& cout=Writer::getInstance();
     cout<<"char";
 }
 
-//
-//  <函数名>：void SubprogramDeclaration::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void SubprogramDeclaration::printCodes(){
     ostream& cout=Writer::getInstance();
     head->printCodes();
@@ -467,9 +394,6 @@ void SubprogramDeclaration::printCodes(){
     cout<<"}"<<endl;
 }
 
-//
-//  <函数名>：void SubprogramHead::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void SubprogramHead::printCodes(){
 	func_location++;
     ostream& cout=Writer::getInstance();
@@ -503,9 +427,6 @@ void SubprogramHead::printCodes(){
     cout<<")"<<endl;
 }
 
-//
-//  <函数名>：void SubprogramBody::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void SubprogramBody::printCodes(){
     ostream& cout=Writer::getInstance();
     for (int i=0; i<constDeclarations.size(); i++) {
@@ -535,9 +456,6 @@ void SubprogramBody::printCodes(){
     compoundStatement->printCodes();
 }
 
-//
-//  <函数名>：void ParameterList::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void ParameterList::printCodes(){
     ostream& cout=Writer::getInstance();
     string typeStr;
@@ -561,9 +479,6 @@ void ParameterList::printCodes(){
     }
 }
 
-//
-//  <函数名>：void Statement::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void Statement::printCodes(){
     if (dynamic_cast<AssignStatement *>(this)!=NULL) {
         AssignStatement * assignStatement=dynamic_cast<AssignStatement *>(this);
@@ -608,15 +523,9 @@ void Statement::printCodes(){
     
 }
 
-//
-//  <函数名>：void AssignStatement::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void AssignStatement::printCodes(){
     ostream& cout=Writer::getInstance();
-    
-    ///////////////////
-    ///////////////////
-    ///////////////////
+
 	if (SymbolTable::getInstance()->find_in_global(variable->id) && (dynamic_cast<Function *>(SymbolTable::getInstance()->getType(variable->id))!=NULL)){
         tab;cout<<"return ";
 		      
@@ -631,9 +540,6 @@ void AssignStatement::printCodes(){
     cout<<";"<<endl;
 }
 
-//
-//  <函数名>：void CallProcedureStatement::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void CallProcedureStatement::printCodes(){
     ostream& cout=Writer::getInstance();
     
@@ -651,9 +557,6 @@ void CallProcedureStatement::printCodes(){
     cout<<");"<<endl;
 }
 
-//
-//  <函数名>：void CompoundStatement::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void CompoundStatement::printCodes(){
     //ostream& cout=Writer::getInstance();
     for (int i=0; i<statementList.size() && statementList[i]!=NULL; i++) {
@@ -661,9 +564,6 @@ void CompoundStatement::printCodes(){
     }
 }
 
-//
-//  <函数名>：void IfStatement::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void IfStatement::printCodes(){
     ostream& cout=Writer::getInstance();
     tab;cout<<"if(";
@@ -689,9 +589,6 @@ void IfStatement::printCodes(){
     }
 }
 
-//
-//  <函数名>：void CaseStatement::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void CaseStatement::printCodes(){
     ostream& cout=Writer::getInstance();
     
@@ -711,9 +608,6 @@ void CaseStatement::printCodes(){
     tab;cout<<"}"<<endl;
 }
 
-//
-//  <函数名>：void Branch::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void Branch::printCodes(){
     ostream& cout=Writer::getInstance();
     
@@ -730,9 +624,6 @@ void Branch::printCodes(){
     Writer::getInstance().decTabCounter();
 }
 
-//
-//  <函数名>：void WhileStatement::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void WhileStatement::printCodes(){
     ostream& cout=Writer::getInstance();
     
@@ -750,9 +641,6 @@ void WhileStatement::printCodes(){
     tab;cout<<"}"<<endl;
 }
 
-//
-//  <函数名>：void RepeatStatement::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void RepeatStatement::printCodes(){
     ostream& cout=Writer::getInstance();
     
@@ -772,9 +660,6 @@ void RepeatStatement::printCodes(){
     cout<<"));"<<endl;
 }
 
-//
-//  <函数名>：void ForStatement::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void ForStatement::printCodes(){
     ostream& cout=Writer::getInstance();
     
@@ -792,9 +677,6 @@ void ForStatement::printCodes(){
     tab;cout<<"}"<<endl;
 }
 
-//
-//  <函数名>：void ReadStatement::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void ReadStatement::printCodes(){
     ostream& cout=Writer::getInstance();
     
@@ -824,9 +706,6 @@ void ReadStatement::printCodes(){
     cout<<");"<<endl;
 }
 
-//
-//  <函数名>：void WriteStatement::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void WriteStatement::printCodes(){
     ostream& cout=Writer::getInstance();
     
@@ -860,9 +739,6 @@ void WriteStatement::printCodes(){
     cout<<");"<<endl;
 }
 
-//
-//  <函数名>：void BinaryExpression::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void BinaryExpression::printCodes(){
     ostream& cout=Writer::getInstance();
     
@@ -890,9 +766,6 @@ void BinaryExpression::printCodes(){
     right->printCodes();
 }
 
-//
-//  <函数名>：void BinarySimpleExpression::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void BinarySimpleExpression::printCodes(){
     ostream& cout=Writer::getInstance();
     
@@ -911,9 +784,6 @@ void BinarySimpleExpression::printCodes(){
     term->printCodes();
 }
 
-//
-//  <函数名>：void SignedTerm::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void SignedTerm::printCodes(){
     ostream& cout=Writer::getInstance();
     
@@ -921,9 +791,6 @@ void SignedTerm::printCodes(){
     term->printCodes();
 }
 
-//
-//  <函数名>：void BinaryTerm::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void BinaryTerm::printCodes(){
     ostream& cout=Writer::getInstance();
     term->printCodes();
@@ -947,9 +814,6 @@ void BinaryTerm::printCodes(){
     factor->printCodes();
 }
 
-//
-//  <函数名>：void Variable::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void Variable::printCodes(){
     ostream& cout=Writer::getInstance();
     if(SymbolTable::getInstance()->isParaReference(func_location,id))
@@ -961,9 +825,6 @@ void Variable::printCodes(){
     }
 }
 
-//
-//  <函数名>：void ArrayPart::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void ArrayPart::printCodes(){
     ostream& cout=Writer::getInstance();
     for (int i=0; i<expressionList.size(); i++) {
@@ -973,17 +834,11 @@ void ArrayPart::printCodes(){
     }
 }
 
-//
-//  <函数名>：void MemberPart::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void MemberPart::printCodes(){
     ostream& cout=Writer::getInstance();
     cout<<"."<<id;
 }
 
-//
-//  <函数名>：void FunctionCall::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void FunctionCall::printCodes(){
     ostream& cout=Writer::getInstance();
     cout<<id<<"(";
@@ -997,9 +852,6 @@ void FunctionCall::printCodes(){
     cout<<")";
 }
 
-//
-//  <函数名>：void Parenthesis::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void Parenthesis::printCodes(){
     ostream& cout=Writer::getInstance();
     
@@ -1008,9 +860,6 @@ void Parenthesis::printCodes(){
     cout<<")";
 }
 
-//
-//  <函数名>：void Not::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void Not::printCodes(){
     ostream& cout=Writer::getInstance();
     
@@ -1047,17 +896,11 @@ void Not::printCodes(){
     cout<<")";
 }
 
-//
-//  <函数名>：void Boolean::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void Boolean::printCodes(){
     ostream& cout=Writer::getInstance();
     cout<<(value? "true": "false");
 }
 
-//
-//  <函数名>：void UnsignedConst::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void UnsignedConst::printCodes(){
     if(dynamic_cast<Num *>(this)!=NULL){
         Num * num=dynamic_cast<Num *>(this);
@@ -1069,17 +912,11 @@ void UnsignedConst::printCodes(){
     }
 }
 
-//
-//  <函数名>：void Num::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void Num::printCodes(){
     ostream& cout=Writer::getInstance();
     cout<<num;
 }
 
-//
-//  <函数名>：void Letters::printCodes()
-//  <函数功能说明>：该函数用于打印当前结点的C语言代码
 void Letters::printCodes(){
     ostream& cout=Writer::getInstance();
     cout<<letters;

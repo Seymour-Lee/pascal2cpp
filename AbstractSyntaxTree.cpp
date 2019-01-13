@@ -1,10 +1,3 @@
-//
-//  <文件名>：AbstractSyntaxTree.cpp 
-//  <文件内容>：该文件包含语法树各结点类的构造和析构函数
-//
-//  <创建日期>：06/03/2017
-
-//  包含头文件
 #include "AbstractSyntaxTree.h"
 
 Program::Program() {
